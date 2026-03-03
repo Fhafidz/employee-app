@@ -8,7 +8,6 @@ use App\Enums\Religion;
 use App\Enums\MaritalStatus;
 use App\Enums\WorkingStatus;
 use App\Enums\EmployeeStatus;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,7 +15,7 @@ class EmployeeModelTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[Test]
+    /** @test */
     public function it_casts_various_fields_to_enums()
     {
         $employee = Employee::factory()->create([
@@ -43,7 +42,7 @@ class EmployeeModelTest extends TestCase
         $this->assertEquals(EmployeeStatus::Active, $employee->status);
     }
 
-    #[Test]
+    /** @test */
     public function it_formats_dates_via_accessors()
     {
         $employee = new Employee([

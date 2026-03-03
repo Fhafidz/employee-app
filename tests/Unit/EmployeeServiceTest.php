@@ -6,7 +6,6 @@ use App\Services\EmployeeService;
 use App\Repositories\Interfaces\EmployeeRepositoryInterface;
 use App\Models\Employee;
 use Tests\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Mockery;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
@@ -30,7 +29,7 @@ class EmployeeServiceTest extends TestCase
         parent::tearDown();
     }
 
-    #[Test]
+    /** @test */
     public function it_formats_dates_before_saving()
     {
         // Data input from DatePicker (d-m-Y)
@@ -59,7 +58,7 @@ class EmployeeServiceTest extends TestCase
         $this->assertEquals($employee, $result);
     }
 
-    #[Test]
+    /** @test */
     public function it_handles_photo_upload()
     {
         Storage::fake('public');
