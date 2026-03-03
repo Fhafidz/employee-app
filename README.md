@@ -3,8 +3,7 @@
 ## 🛠️ Stack Teknologi
 
 - **Core**: Laravel 12 (PHP 8.2+), MySQL.
-- **Data Safety**: PHP 8.1+ Backed Enums.
-- **Styles**: Tailwind CSS (Premium Look & Glassmorphism).
+- **Styles**: Tailwind CSS
 - **JavaScript Library**:
     - **jQuery 3.7** & **DataTables** (dengan Responsive Extension).
     - **SweetAlert2** untuk notifikasi dan dialog konfirmasi.
@@ -54,9 +53,9 @@
 
 ## 🧪 Pengujian (Testing)
 
-```bash
-php artisan test
-```
+    ```bash
+    php artisan test
+    ```
 
 ## 📄 Lisensi
 
