@@ -36,7 +36,7 @@
 
 3. **Database & Storage**:
 
-    Pastikan ekstensi `pdo_mysql` sudah aktif di `php.ini` Anda.
+    _Pastikan ekstensi `pdo_mysql` sudah aktif di `php.ini` Anda._
 
     ```bash
     php artisan storage:link
@@ -45,13 +45,14 @@
     ```
 
 4. **Jalankan Aplikasi**:
+
     ```bash
     php artisan serve
     ```
 
----
-
 ## 🧪 Pengujian (Testing)
+
+    Buat database employee_test pada database MySQL secara manual, agar pengujian dapat berjalan
 
     ```bash
     php artisan test
