@@ -1,114 +1,106 @@
-# Sistem Manajemen Pegawai (HRIS) - Laravel 12
+# Sistem Manajemen Pegawai (Employee System) - Laravel 12
 
-Sistem Manajemen Pegawai yang premium, responsif, dan berperforma tinggi yang dibangun menggunakan Laravel 12. Proyek ini dirancang untuk memenuhi persyaratan penilaian Full Stack Developer, dengan fokus pada arsitektur kode yang bersih (clean architecture), UI/UX modern, dan pengelolaan data yang tangguh.
-
----
-
-## 🚀 Fitur Utama
-
-- **CRUD Komprehensif**: Menambah, Melihat, Mengubah, dan Menghapus (Soft-Delete) data pegawai.
-- **DataTable Lanjutan**: Pemrosesan sisi server (Server-side) dengan pencarian global, filter per kolom, dan pengurutan.
-- **Desain Responsif**: Dioptimalkan sepenuhnya untuk Desktop dan Mobile menggunakan Tailwind CSS dan tipografi Mona Sans.
-- **Formulir Interaktif**:
-    - **Dropzone.js**: Lampiran multi-dokumen dengan fitur tarik & lepas (drag & drop).
-    - **FileInputJS**: Upload foto profil dengan pratinjau instan dan tombol hapus yang user-friendly.
-    - **Select2**: Dropdown yang mendukung pencarian untuk semua bidang pilihan.
-    - **DateRangePicker**: Filter rentang tanggal dan pemilihan tanggal standar.
-- **Ekspor Data**: Ekspor daftar pegawai ke Excel, PDF, dan CSV langsung dari browser.
-- **Recycle Bin**: Mengembalikan data pegawai yang dihapus atau menghapusnya secara permanen.
-- **Akses API**: Endpoint JSON khusus untuk data pegawai.
+Sistem Manajemen Pegawai yang premium, modern, dan sangat responsif yang dibangun menggunakan **Laravel 12**. Proyek ini dirancang dengan fokus pada arsitektur kode yang bersih (**Clean Architecture**), performa tinggi, dan pengalaman pengguna (**UX**) yang optimal di semua perangkat.
 
 ---
 
-## 📂 Dokumentasi Struktur & Fungsi Kode
+## 🚀 Fitur Unggulan
 
-Sistem ini menggunakan arsitektur **Service-Repository Pattern** untuk memisahkan tanggung jawab (Separation of Concerns), memudahkan pengujian, dan menjaga kode tetap bersih (Clean Code).
+- **Responsive DataTables (New)**: Tampilan tabel yang cerdas dengan fitur **Grouping Columns**. Menggabungkan ~17 kolom menjadi 7 kolom utama yang padat informasi (Identitas, Profil, Pekerjaan).
+- **Premium Branding & UI**: Implementasi logo kustom, tipografi yang elegan (`font-medium` untuk data tabel), dan skema warna yang profesional.
+- **Type-Safe avec PHP Enums**: Menggunakan **PHP 8.1+ Enums** untuk validasi data tingkat lanjut pada kolom Gender, Agama, Status Pernikahan, dan Status Karyawan, menjamin integritas data 100%.
+- **CRUD Komprehensif**: Fitur lengkap Menambah, Melihat, Mengubah, dan Menghapus (dengan dukungan **Soft-Delete**).
+- **Advanced Filtering & Search**: Pencarian global instan dan filter multi-kategori (Gender, Departemen, Jabatan, Status, serta rentang tanggal) yang terintegrasi langsung di header tabel.
+- **Manajemen Media & Dokumen**:
+    - **Bootstrap FileInput**: Unggah foto profil dengan pratinjau instan.
+    - **Dropzone.js & SweetAlert2**: Lampiran multi-dokumen (PDF/JPG/DOC) yang bisa dilihat dan diunduh melalui modal interaktif.
+- **Ekspor Data Multiformat**: Ekspor daftar pegawai ke **Excel** dan **PDF** secara instan dengan layout yang rapi.
+- **Recycle Bin (Trash)**: Fitur keamanan data untuk mengembalikan data pegawai yang terhapus atau menghapusnya secara permanen.
 
-### 1. Model & Database (`app/Models`)
+---
 
-- **`Employee.php`**: Representasi data pegawai. Mengatur mass-assignment (`$fillable`), konstanta status (Gender, Agama, Status Kerja), dan **Accessors** untuk memformat tanggal secara otomatis agar sesuai dengan format UI (DD-MM-YYYY).
-- **`EmployeeDocument.php`**: Mengelola data lampiran dokumen yang terhubung dengan pegawai.
+## 📂 Arsitektur & Struktur Kode
 
-### 2. Repositori (`app/Repositories`)
+Proyek ini menerapkan **Service-Repository Pattern** untuk memisahkan logika bisnis dari akses database, menjadikannya mudah dalam perawatan dan pengujian.
 
-- **`Interfaces/EmployeeRepositoryInterface.php`**: Kontrak yang mendefinisikan metode apa saja yang harus tersedia untuk pengelolaan data pegawai.
-- **`Eloquent/EmployeeRepository.php`**: Implementasi nyata menggunakan Eloquent. Mengandung logika query database yang kompleks, termasuk filter dinamis untuk DataTable dan pencarian data.
+### 1. Struktur Backend (`app/`)
 
-### 3. Layanan (`app/Services`)
+- **Enums & Casting**: Menggunakan folder [`app/Enums`](app/Enums) untuk standarisasi pilihan data. Model [`Employee.php`](app/Models/Employee.php) secara otomatis melakukan _casting_ nilai database menjadi objek Enum PHP.
+- **Repositories**: Menggunakan [`EmployeeRepositoryInterface.php`](app/Repositories/Interfaces/EmployeeRepositoryInterface.php) sebagai kontrak untuk akses data yang fleksibel.
+- **Services**: [`EmployeeService.php`](app/Services/EmployeeService.php) mengelola proses kompleks seperti penyimpanan file fisik dan transaksi database (Atomic Transactions).
+- **Validation**: Menggunakan **Form Requests** modern yang terintegrasi dengan validasi Enum ([`StoreEmployeeRequest.php`](app/Http/Requests/StoreEmployeeRequest.php)).
 
-- **`EmployeeService.php`**: Menangani logika bisnis yang tidak berhubungan langsung dengan database, seperti proses pengunggahan file (foto & dokumen), validasi file, dan penghapusan file fisik dari storage saat data dihapus.
+### 2. Standar Dokumentasi
 
-### 4. Controller & Routing (`app/Http/Controllers`)
+Seluruh komentar internal (`DocBlocks`) pada kode backend telah menggunakan **Bahasa Indonesia** secara konsisten untuk memudahkan kolaborasi tim lokal.
 
-- **`EmployeeController.php`**: Mengatur alur (flow) aplikasi. Menghubungkan permintaan dari view ke Service atau Repository, lalu mengembalikan respon (view atau JSON).
-- **`routes/web.php`**: Mendefinisikan endpoint URL sistem, termasuk prefix `employees` dan penamaan route yang konsisten.
+### 3. Struktur Frontend (`resources/views`)
 
-### 5. Validasi (`app/Http/Requests`)
-
-- **`StoreEmployeeRequest.php` & `UpdateEmployeeRequest.php`**: Mengisolasi logika validasi input dari controller. Memastikan NIK unik, format email benar, dan file yang diunggah sesuai ketentuan.
-
-### 6. Frontend & UI (`resources/views`)
-
-- **`layouts/app.blade.php`**: Layout utama yang memuat CSS/JS global, penataan font _Mona Sans_, dan skema warna premium.
-- **`components/`**: Berisi komponen Blade yang dapat digunakan kembali:
-    - `form-input.blade.php`: Input teks standar.
-    - `form-select.blade.php`: Integrasi Select2.
-    - `form-file.blade.php`: Integrasi FileInputJS untuk foto profil.
-- **`employees/index.blade.php`**: Halaman utama yang menginisialisasi **DataTable**, filter rentang tanggal, dan fitur ekspor.
-- **`assets/js/app-utils.js`**: **Inti dari interaksi frontend**. Mengelola inisialisasi otomatis untuk Select2, Datepicker, FileInputJS, dan menyediakan wrapper AJAX (`submitForm`) agar semua submit form berjalan tanpa refresh halaman.
+- **Consolidated Table**: Desain tabel di [`index.blade.php`](resources/views/employees/index.blade.php) menggunakan teknik grouping dan tipografi `font-medium` untuk keterbacaan data.
+- **Global Utilities**: [`app-utils.js`](public/assets/js/app-utils.js) menyediakan fungsi pembantu untuk inisialisasi Select2, Datepicker, dan penanganan AJAX error secara dinamis.
 
 ---
 
 ## 🛠️ Stack Teknologi
 
-- **Backend**: Laravel 12 (PHP 8.2+)
-- **Frontend**: Tailwind CSS, jQuery, DataTables.net, SweetAlert2, Dropzone.js, FileInputJS.
-- **Database**: MySQL/MariaDB.
-- **Library Ekspor**: jsPDF, xlsx.js, tableExport.
+- **Core**: Laravel 12 (PHP 8.2+), MySQL.
+- **Data Safety**: PHP 8.1+ Backed Enums.
+- **Styles**: Tailwind CSS (Premium Look & Glassmorphism).
+- **JavaScript Library**:
+    - **jQuery 3.7** & **DataTables** (dengan Responsive Extension).
+    - **SweetAlert2** untuk notifikasi dan dialog konfirmasi.
+    - **Select2** untuk dropdown pencarian & dynamic tagging.
+    - **Moment.js** & **DateRangePicker** untuk manajemen waktu.
+    - **tableExport.js**, **jsPDF**, **xlsx.js** untuk ekspor data.
 
 ---
 
 ## 📥 Panduan Instalasi
 
-1. **Clone & Install**:
+1. **Persiapan Project**:
 
     ```bash
     git clone <url-repository>
     cd employee-app
-    composer install && npm install
+    composer install
+    npm install && npm run build
     ```
 
-2. **Environment**:
+2. **Pengaturan Lingkungan**:
 
     ```bash
     cp .env.example .env
     php artisan key:generate
     ```
 
-    _Atur koneksi DB di .env._
+    _Sesuaikan database di file `.env`._
 
-3. **Storage & Database**:
+3. **Database & Storage**:
 
     ```bash
     php artisan storage:link
-    php artisan migrate --seed
+    php artisan migrate:fresh --seed
     ```
 
-4. **Jalankan**:
+4. **Jalankan Aplikasi**:
     ```bash
     php artisan serve
     ```
 
 ---
 
-## 🧪 Menjalankan Pengujian (Testing)
+## 🧪 Pengujian (Testing)
+
+Proyek ini dilengkapi dengan **28 Automated Tests** (111 assertions) untuk memastikan stabilitas:
 
 ```bash
 php artisan test
 ```
 
-_Terdapat 24 test case yang memvalidasi fungsionalitas CRUD, Upload, dan Filtering._
+_Mencakup Unit Test untuk Enum & Accessors, serta Feature Test untuk alur CRUD, API DataTables, Validasi File, dan Recycle Bin._
+
+---
 
 ## 📄 Lisensi
 
-Tersedia di bawah [Lisensi MIT](LICENSE).
+Copyright © 2026

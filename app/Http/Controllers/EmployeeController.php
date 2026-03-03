@@ -24,7 +24,7 @@ class EmployeeController extends Controller
 
 
     /**
-     * Display a listing of the resource.
+     * Menampilkan halaman daftar pegawai
      */
     public function index()
     {
@@ -33,7 +33,7 @@ class EmployeeController extends Controller
 
 
     /**
-     * Menyediakan API untuk DataTables dengan dukungan filter
+     *  API untuk DataTables dengan dukungan filter
      */
     public function getData(Request $request)
     {
@@ -67,26 +67,21 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Helper method to get form options
+     * Metode untuk mengambil opsi pilihan form (Dropdown)
      */
     private function getFormOptions()
     {
         return [
-            'genders' => Employee::$genderLabels,
-            'religions' => Employee::$religionLabels,
-            'maritalStatuses' => Employee::$maritalStatusLabels,
-            'workingStatuses' => Employee::$workingStatusLabels,
-            'statuses' => [
-                'active' => 'Aktif',
-                'inactive' => 'Non-Aktif'
-            ],
+            'genders' => \App\Enums\Gender::labels(),
+            'religions' => \App\Enums\Religion::labels(),
+            'maritalStatuses' => \App\Enums\MaritalStatus::labels(),
+            'workingStatuses' => \App\Enums\WorkingStatus::labels(),
+            'statuses' => \App\Enums\EmployeeStatus::labels(),
             'departments' => [
-                'IT' => 'IT',
-                'HR' => 'HR',
-                'Finance' => 'Finance',
-                'Marketing' => 'Marketing',
                 'IT Development' => 'IT Development',
                 'Human Resources' => 'Human Resources',
+                'Finance' => 'Finance',
+                'Marketing' => 'Marketing',
                 'Quality Assurance' => 'Quality Assurance',
                 'Operations' => 'Operations'
             ],
@@ -107,22 +102,18 @@ class EmployeeController extends Controller
     public function store(StoreEmployeeRequest $request)
     {
         try {
-            // Data otomatis tervalidasi sebelum masuk ke baris ini.
-            // Kita cukup lempar data yang valid ke Service.
             $this->employeeService->createEmployee(
                 $request->validated(), 
                 $request->file('photo'),
                 $request->file('documents')
             );
 
-            // Mengembalikan response JSON untuk ditangkap oleh AJAX & SweetAlert di Frontend
             return response()->json([
                 'success' => true,
                 'message' => 'Data pegawai berhasil ditambahkan!'
             ], 200);
 
         } catch (\Exception $e) {
-            // Jika ada error di Service (misal gagal simpan foto/database)
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan pada server: ' . $e->getMessage()
@@ -131,12 +122,11 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Menampilkan form edit untuk pegawai yang dipilih
-     * Menggunakan Route Model Binding (best practice)
+     * 
+     *  Menampilkan form edit untuk pegawai yang dipilih
      */
     public function edit(Employee $employee)
     {
-        // Accessor di Model sudah handle formatting date_of_birth & hired_date ke DD-MM-YYYY
         return view('employees.edit', array_merge(
             compact('employee'),
             $this->getFormOptions()
@@ -191,7 +181,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Get documents for an employee
+     * Mengambil daftar dokumen milik pegawai
      */
     public function getDocuments(Employee $employee)
     {
@@ -212,7 +202,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Display trashed (soft deleted) employees
+     * Menampilkan halaman trash/recyclebin data pegawai
      */
     public function trashed()
     {
@@ -220,7 +210,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Get trashed employees data for DataTables
+     * Mengambil data pegawai yang telah dihapus (Recycle Bin) untuk DataTables
      */
     public function getTrashedData()
     {
@@ -249,7 +239,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Restore a soft deleted employee
+     * Mengembalikan data pegawai dari recycle bin (Restore)
      */
     public function restore($id)
     {
@@ -279,7 +269,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Permanently delete a soft deleted employee
+     * Menghapus data pegawai secara permanen dari database & storage
      */
     public function forceDelete($id)
     {
@@ -293,7 +283,6 @@ class EmployeeController extends Controller
                 ], 404);
             }
 
-            // Delete associated documents and photos
             if ($employee->photo) {
                 \Storage::disk('public')->delete('employees/' . $employee->photo);
             }

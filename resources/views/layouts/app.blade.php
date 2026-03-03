@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>HRIS System - Employee Management</title>
+    <title>System - Employee Management</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -543,8 +543,7 @@
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <a href="{{ route('employees.index') }}" class="flex items-center space-x-2 hover:opacity-80 transition">
-                    <img src="/assets/biiscorp_logo.png" alt="BIIS Corp" class="h-8 w-auto">
-                    <span class="text-xl font-bold text-primary tracking-tight">HRIS</span>
+                    <img src="/images/biiscorp_logo.png" alt="BIIS Corp" class="h-8 w-auto">
                 </a>
 
                 <!-- Desktop Nav Links -->
@@ -554,9 +553,6 @@
                     </a>
                     <a href="{{ route('employees.trashed') }}" class="text-secondary hover:text-primary font-medium transition text-sm {{ request()->routeIs('employees.trashed') ? 'text-primary' : '' }}">
                         <i class="fas fa-trash-alt mr-1.5"></i>Recycle Bin
-                    </a>
-                    <a href="#" class="text-secondary hover:text-primary font-medium transition text-sm">
-                        <i class="fas fa-cog mr-1.5"></i>Pengaturan
                     </a>
                 </div>
 
@@ -575,21 +571,19 @@
             <a href="{{ route('employees.trashed') }}" class="block px-3 py-2.5 rounded-md text-base font-medium text-secondary hover:bg-light hover:text-primary {{ request()->routeIs('employees.trashed') ? 'bg-teal-50 text-primary' : '' }}">
                 <i class="fas fa-trash-alt mr-3 w-5 text-center"></i>Recycle Bin
             </a>
-            <a href="#" class="block px-3 py-2.5 rounded-md text-base font-medium text-secondary hover:bg-light hover:text-primary">
-                <i class="fas fa-cog mr-3 w-5 text-center"></i>Pengaturan
-            </a>
         </div>
     </nav>
 
     <!-- ===== MAIN CONTENT ===== -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0 flex-1">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 flex-1">
         @yield('content')
     </main>
 
     <!-- ===== FOOTER ===== -->
     <footer class="bg-secondary text-white py-6 border-t border-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-            <p>&copy; 2026 BIIS Corporation. All rights reserved. | HRIS System v1.0</p>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-center text-sm">
+            <img src="/images/biiscorp_logo.png" alt="BIIS Corp" class="h-8 w-auto mb-3">
+            <p>&copy;2026 All rights reserved</p>
         </div>
     </footer>
 

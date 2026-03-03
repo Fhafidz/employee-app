@@ -145,13 +145,37 @@ const AppUtils = {
                 btnSubmit.prop("disabled", false);
                 spinner.addClass("hidden");
 
+                // Clear previous error messages
+                $(".error").addClass("hidden").text("");
+                $(".form-input, .select2-selection").removeClass(
+                    "border-red-500",
+                );
+
                 if (xhr.status === 422) {
                     let errors = xhr.responseJSON.errors;
-                    let msg = Object.values(errors)[0][0];
+
+                    // Display each error under its respective field
+                    Object.keys(errors).forEach((field) => {
+                        const errorMsg = errors[field][0];
+                        const errorElement = $(`.error[data-field="${field}"]`);
+
+                        if (errorElement.length) {
+                            errorElement.text(errorMsg).removeClass("hidden");
+                            // Highlight the input or select2
+                            $(`#${field}`).addClass("border-red-500");
+                            // Special case for Select2
+                            $(`#${field}`)
+                                .next(".select2-container")
+                                .find(".select2-selection")
+                                .addClass("border-red-500");
+                        }
+                    });
+
+                    // Still show a summary alert for better awareness
                     Swal.fire({
                         icon: "error",
                         title: "Validasi Gagal",
-                        text: msg,
+                        text: "Silakan periksa kembali formulir Anda.",
                     });
                 } else {
                     Swal.fire({

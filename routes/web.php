@@ -9,7 +9,7 @@ Route::get('/', function () {
 
 Route::prefix('employees')->name('employees.')->group(function () {
     Route::get('/', [EmployeeController::class, 'index'])->name('index');
-    Route::get('/data', [EmployeeController::class, 'getData'])->name('data'); // Untuk DataTables API - HARUS SEBELUM {id}
+    Route::get('/data', [EmployeeController::class, 'getData'])->name('data'); // Untuk DataTables API
     Route::post('/', [EmployeeController::class, 'store'])->name('store');
     Route::get('/create', [EmployeeController::class, 'create'])->name('create');
     Route::get('/trash/bin', [EmployeeController::class, 'trashed'])->name('trashed');

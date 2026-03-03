@@ -26,22 +26,24 @@ class StoreEmployeeRequest extends FormRequest
             'full_name'       => 'required|string|max:255',
             'email'           => 'required|email|unique:employees,email',
             'phone_number'    => 'required|string|max:15',
-            'gender'          => 'required|in:M,F',
+            'gender'          => ['required', new \Illuminate\Validation\Rules\Enum(\App\Enums\Gender::class)],
             'date_of_birth'   => 'required|date_format:d-m-Y',
             'address'         => 'required|string',
-            'religion'        => 'required|in:islam,christianity_protestant,catholic,hindu,buddhism,confucianism',
-            'marital_status'  => 'required|in:single,married,divorced',
+            'religion'        => ['required', new \Illuminate\Validation\Rules\Enum(\App\Enums\Religion::class)],
+            'marital_status'  => ['required', new \Illuminate\Validation\Rules\Enum(\App\Enums\MaritalStatus::class)],
             'department'      => 'required|string',
             'position'        => 'required|string',
-            'working_status'  => 'required|in:full_time,part_time,contract,intern',
+            'working_status'  => ['required', new \Illuminate\Validation\Rules\Enum(\App\Enums\WorkingStatus::class)],
             'hired_date'      => 'required|date_format:d-m-Y',
-            'status'          => 'required|in:active,inactive',
-            'photo'           => 'nullable|image|mimes:jpeg,png,jpg|max:2048' // Maks 2MB
+            'status'          => ['required', new \Illuminate\Validation\Rules\Enum(\App\Enums\EmployeeStatus::class)],
+            'photo'           => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Maks 2MB
+            'documents'       => 'nullable|array',
+            'documents.*'     => 'file|mimes:pdf,doc,docx,jpg,png|max:5120', // Maks 5MB per file
         ];
     }
 
     /**
-     * Custom pesan error dalam Bahasa Indonesia untuk UX yang lebih baik
+     * Custom pesan error
      */
     public function messages(): array
     {
@@ -61,7 +63,7 @@ class StoreEmployeeRequest extends FormRequest
     }
 
     /**
-     * Mengubah nama atribut agar pesan error lebih enak dibaca (misal: "Kolom full_name wajib diisi" menjadi "Kolom Nama Lengkap wajib diisi")
+     * Mengubah nama atribut agar pesan error lebih baik
      */
     public function attributes(): array
     {

@@ -62,7 +62,7 @@ class EmployeeService
     }
 
     /**
-     * Store single document file
+     * Menyimpan satu file dokumen
      */
     private function storeDocument(Employee $employee, $file)
     {
@@ -110,8 +110,8 @@ class EmployeeService
                     $data['photo'] = $filename;
                 }
 
-                // 3. Update data melalui Repository
-                $updated = $this->employeeRepository->update($id, $data);
+                // 3. Update data melalui Repository (pass model instance untuk hindari query find redundan)
+                $updated = $this->employeeRepository->update($employee, $data);
 
                 // 4. Handle new documents (jika ada)
                 if ($documentFiles && is_array($documentFiles)) {
@@ -143,7 +143,7 @@ class EmployeeService
                     Storage::disk('public')->delete('employees/' . $employee->photo);
                 }
 
-                return $this->employeeRepository->delete($id);
+                return $this->employeeRepository->delete($employee);
             });
 
         } catch (\Exception $e) {

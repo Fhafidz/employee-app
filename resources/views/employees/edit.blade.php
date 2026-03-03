@@ -65,6 +65,7 @@
                                 <p class="text-sm text-gray-500">atau klik untuk memilih (PDF, DOC, DOCX)</p>
                             </div>
                         </div>
+                        <span class="error hidden" data-field="documents"></span>
                     </div>
                 </div>
             </div>

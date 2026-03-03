@@ -8,7 +8,7 @@ use App\Repositories\Interfaces\EmployeeRepositoryInterface;
 class EmployeeRepository implements EmployeeRepositoryInterface
 {
     /**
-     * Get all employees untuk DataTables with optional filters
+     * Mengambil semua data pegawai untuk DataTables dengan filter opsional
      */
     public function getAllForDatatables($filters = [])
     {
@@ -59,7 +59,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
     }
 
     /**
-     * Parse a DD/MM/YYYY date string safely to Y-m-d
+     * Mengubah format tanggal DD/MM/YYYY menjadi Y-m-d agar bisa dibaca database
      */
     private function parseDateFilter(string $date): ?string
     {
@@ -79,8 +79,8 @@ class EmployeeRepository implements EmployeeRepositoryInterface
     }
 
     /**
+     * 
      * Find employee by ID
-     * Menggunakan findOrFail() untuk otomatis return 404 jika data tidak ada
      */
     public function findById($id)
     {
@@ -92,7 +92,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
      */
     public function update($id, array $data)
     {
-        $employee = $this->findById($id);
+        $employee = ($id instanceof Employee) ? $id : $this->findById($id);
         $employee->update($data);
         return $employee;
     }
@@ -102,7 +102,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
      */
     public function delete($id)
     {
-        $employee = $this->findById($id);
+        $employee = ($id instanceof Employee) ? $id : $this->findById($id);
         return $employee->delete();
     }
 

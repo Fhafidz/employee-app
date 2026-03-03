@@ -18,7 +18,5 @@
         <p class="text-xs text-gray-400 mt-2">{{ $help }}</p>
     @endif
 
-    @error($name)
-        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-    @enderror
+    <span class="error hidden" data-field="{{ $name }}"></span>
 </div>

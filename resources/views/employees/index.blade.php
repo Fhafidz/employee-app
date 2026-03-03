@@ -220,37 +220,37 @@ $(document).ready(function() {
                 if (data) {
                     return `<img src="/storage/employees/${data}" class="w-10 h-10 rounded-full object-cover mx-auto shadow-soft border-2 border-primary">`;
                 }
-                return `<div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent text-white flex items-center justify-center mx-auto font-bold shadow-soft"><i class="fas fa-user text-sm"></i></div>`;
+                return `<div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent text-white flex items-center justify-center mx-auto font-medium shadow-soft"><i class="fas fa-user text-sm"></i></div>`;
             }},
-            { data: 'identity_number', className: 'p-4 border-b text-secondary whitespace-nowrap' },
+            { data: 'identity_number', className: 'p-4 border-b text-secondary font-medium whitespace-nowrap' },
             { data: 'full_name', className: 'p-4 border-b whitespace-nowrap', render: (data, type, row) => `
-                <div class="font-bold text-secondary text-base leading-tight">${data}</div>
+                <div class="font-medium text-secondary text-base leading-tight">${data}</div>
                 <div class="text-xs text-gray-500 mt-0.5">${row.email}</div>
             ` },
-            { data: 'phone_number', className: 'p-4 border-b whitespace-nowrap' },
+            { data: 'phone_number', className: 'p-4 border-b font-medium whitespace-nowrap' },
             { data: 'gender', className: 'p-4 border-b whitespace-nowrap', orderable: false, render: data => {
                 const label = data === 'M' ? 'Laki-laki' : 'Perempuan';
                 const color = data === 'M' ? 'bg-blue-100 text-blue-700' : 'bg-pink-100 text-pink-700';
                 return `<span class="px-2 py-1 ${color} text-xs font-medium">${label}</span>`;
             }},
-            { data: 'date_of_birth', className: 'p-4 border-b whitespace-nowrap', orderable: false },
-            { data: 'address', className: 'p-4 border-b', render: data => `<div class="truncate w-40 text-gray-700" title="${data}">${data}</div>` },
+            { data: 'date_of_birth', className: 'p-4 border-b font-medium whitespace-nowrap', orderable: false },
+            { data: 'address', className: 'p-4 border-b font-medium', render: data => `<div class="truncate w-40 text-gray-700 font-medium" title="${data}">${data}</div>` },
             { data: 'religion', className: 'p-4 border-b whitespace-nowrap', orderable: false, render: data => {
                 const map = { islam: 'Islam', christianity_protestant: 'Kristen Protestan', catholic: 'Katolik', hindu: 'Hindu', buddhism: 'Buddha', confucianism: 'Khonghucu' };
-                return `<span class="text-sm text-gray-700">${map[data] || data}</span>`;
+                return `<span class="text-sm text-gray-700 font-medium">${map[data] || data}</span>`;
             }},
             { data: 'marital_status', className: 'p-4 border-b whitespace-nowrap', orderable: false, render: data => {
                 const map = { single: 'Belum Menikah', married: 'Menikah', divorced: 'Cerai' };
-                return `<span class="text-sm text-gray-700">${map[data] || data}</span>`;
+                return `<span class="text-sm text-gray-700 font-medium">${map[data] || data}</span>`;
             }},
-            { data: 'department',     className: 'p-4 border-b whitespace-nowrap text-secondary', orderable: false },
-            { data: 'position',       className: 'p-4 border-b whitespace-nowrap text-secondary', orderable: false },
+            { data: 'department',     className: 'p-4 border-b whitespace-nowrap text-secondary font-medium', orderable: false },
+            { data: 'position',       className: 'p-4 border-b whitespace-nowrap text-secondary font-medium', orderable: false },
             { data: 'working_status', className: 'p-4 border-b whitespace-nowrap', orderable: false, render: data => {
                 const label = { full_time: 'Full Time', part_time: 'Part Time', contract: 'Kontrak', intern: 'Magang' };
                 const color = { full_time: 'bg-green-100 text-green-700', part_time: 'bg-yellow-100 text-yellow-700', contract: 'bg-purple-100 text-purple-700', intern: 'bg-blue-100 text-blue-700' };
                 return `<span class="px-2 py-1 ${color[data] || 'bg-gray-100'} text-xs font-medium">${label[data] || data}</span>`;
             }},
-            { data: 'hired_date', className: 'p-4 border-b whitespace-nowrap', orderable: false },
+            { data: 'hired_date', className: 'p-4 border-b font-medium whitespace-nowrap', orderable: false },
             { data: 'status', className: 'p-4 border-b whitespace-nowrap', orderable: false, render: data =>
                 data === 'active'
                     ? '<span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium">Aktif</span>'

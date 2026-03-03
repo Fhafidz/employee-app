@@ -10,67 +10,18 @@ class Employee extends Model
 {
     use HasFactory, SoftDeletes;
 
-    // ===== ENUM CONSTANTS & TRANSLATIONS =====
-    // Gender Constants
-    const GENDER_MALE = 'M';
-    const GENDER_FEMALE = 'F';
-    
-    public static $genderLabels = [
-        'M' => 'Laki-laki',
-        'F' => 'Perempuan',
+    // Cast Enum dan Datetime
+    protected $casts = [
+        'gender' => \App\Enums\Gender::class,
+        'religion' => \App\Enums\Religion::class,
+        'marital_status' => \App\Enums\MaritalStatus::class,
+        'working_status' => \App\Enums\WorkingStatus::class,
+        'status' => \App\Enums\EmployeeStatus::class,
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
-    // Religion Constants
-    const RELIGION_ISLAM = 'islam';
-    const RELIGION_CHRISTIANITY_PROTESTANT = 'christianity_protestant';
-    const RELIGION_CATHOLIC = 'catholic';
-    const RELIGION_HINDU = 'hindu';
-    const RELIGION_BUDDHISM = 'buddhism';
-    const RELIGION_CONFUCIANISM = 'confucianism';
-    
-    public static $religionLabels = [
-        'islam' => 'Islam',
-        'christianity_protestant' => 'Kristen Protestan',
-        'catholic' => 'Katolik',
-        'hindu' => 'Hindu',
-        'buddhism' => 'Buddha',
-        'confucianism' => 'Khonghucu',
-    ];
-
-    // Marital Status Constants
-    const MARITAL_SINGLE = 'single';
-    const MARITAL_MARRIED = 'married';
-    const MARITAL_DIVORCED = 'divorced';
-    
-    public static $maritalStatusLabels = [
-        'single' => 'Belum Menikah',
-        'married' => 'Menikah',
-        'divorced' => 'Cerai',
-    ];
-
-    // Working Status Constants
-    const WORKING_FULLTIME = 'full_time';
-    const WORKING_PARTTIME = 'part_time';
-    const WORKING_CONTRACT = 'contract';
-    const WORKING_INTERN = 'intern';
-    
-    public static $workingStatusLabels = [
-        'full_time' => 'Full Time',
-        'part_time' => 'Part Time',
-        'contract' => 'Kontrak',
-        'intern' => 'Magang',
-    ];
-
-    // Employee Status Constants
-    const STATUS_ACTIVE = 'active';
-    const STATUS_INACTIVE = 'inactive';
-    
-    public static $statusLabels = [
-        'active' => 'Aktif',
-        'inactive' => 'Non-Aktif',
-    ];
-
-    // Alternatif dari $guarded - lebih eksplisit & safer untuk mass assignment
+    // Tabel Yang Boleh Diisi
     protected $fillable = [
         'identity_number',
         'full_name',
@@ -89,11 +40,7 @@ class Employee extends Model
         'photo',
     ];
 
-    // Cast hanya untuk created_at dan updated_at
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
+
 
     /**
      * Accessor untuk format date_of_birth ke DD-MM-YYYY

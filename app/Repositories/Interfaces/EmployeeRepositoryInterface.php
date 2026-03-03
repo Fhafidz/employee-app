@@ -5,12 +5,12 @@ namespace App\Repositories\Interfaces;
 interface EmployeeRepositoryInterface
 {
     /**
-     * Get all employees for DataTables with optional filters
+     * Ambil semua data pegawai untuk DataTables dengan filter opsional
      */
     public function getAllForDatatables($filters = []);
 
     /**
-     * Create new employee
+     * Membuat data pegawai baru
      */
     public function create(array $data);
 
@@ -25,7 +25,7 @@ interface EmployeeRepositoryInterface
     public function update($id, array $data);
 
     /**
-     * Delete employee (soft delete)
+     * Delete data pegawai (soft delete)
      */
     public function delete($id);
 

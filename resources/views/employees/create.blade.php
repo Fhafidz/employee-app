@@ -69,6 +69,7 @@
                         </div>
                         {{-- Preview list renders here --}}
                         <div id="dz-previews" class="mt-3 space-y-1"></div>
+                        <span class="error hidden" data-field="documents"></span>
                     </div>
                 </div>
             </div>
