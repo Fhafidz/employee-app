@@ -159,7 +159,7 @@ $(document).ready(function() {
                 );
 
                 // Re-init Select2 after populating options
-                initSelect2();
+                if (window.AppUtils) AppUtils.initSelect2();
             },
             error: function() {
                 // silent fail — filters will just be empty
@@ -278,67 +278,70 @@ $(document).ready(function() {
             paginate: { previous: "< Sebelumnya", next: "Selanjutnya >" }
         },
         initComplete: function() {
-            initSelect2();
+            if (window.AppUtils) AppUtils.initSelect2();
             loadDynamicFilters();
-
-            // ─── Daterangepicker ───────────────────────────────────────────
-            const drpLocale = {
-                format: 'DD/MM/YYYY',
-                separator: ' - ',
-                applyLabel: 'Terapkan',
-                cancelLabel: 'Reset',
-                daysOfWeek: ['Min','Sen','Sel','Rab','Kam','Jum','Sab'],
-                monthNames: ['Januari','Februari','Maret','April','Mei','Juni',
-                             'Juli','Agustus','September','Oktober','November','Desember'],
-                firstDay: 1
-            };
-            const drpOptions = {
-                autoApply: false,
-                autoUpdateInput: false,
-                showDropdowns: true,
-                linkedCalendars: true,
-                locale: drpLocale,
-                opens: 'auto',
-                drops: 'auto',
-                ranges: {
-                    'Bulan Ini'       : [moment().startOf('month'), moment().endOf('month')],
-                    '3 Bulan Terakhir': [moment().subtract(3, 'months').startOf('month'), moment().endOf('month')],
-                    'Tahun Ini'       : [moment().startOf('year'), moment().endOf('year')],
-                    'Tahun Lalu'      : [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
-                }
-            };
-
-            function initDrp(inputId, clearId) {
-                const $input = $('#' + inputId);
-                const $clear = $('#' + clearId);
-
-                $input.val('');
-                $input.daterangepicker(drpOptions);
-
-                $input.on('apply.daterangepicker', function(ev, picker) {
-                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-                    $clear.show();
-                    table.ajax.reload();
-                });
-                $input.on('cancel.daterangepicker', function() {
-                    $(this).val('');
-                    $clear.hide();
-                    table.ajax.reload();
-                });
-                $input.on('click', function(e) { e.stopPropagation(); });
-
-                $clear.hide().on('click', function(e) {
-                    e.stopPropagation();
-                    $input.val('');
-                    $(this).hide();
-                    table.ajax.reload();
-                });
-            }
-
-            initDrp('filterDob', 'clearDob');
-            initDrp('filterHiredDate', 'clearHiredDate');
         }
     });
+
+    // ─── Daterangepicker ───────────────────────────────────────────
+    const drpLocale = {
+        format: 'DD/MM/YYYY',
+        separator: ' - ',
+        applyLabel: 'Terapkan',
+        cancelLabel: 'Reset',
+        daysOfWeek: ['Min','Sen','Sel','Rab','Kam','Jum','Sab'],
+        monthNames: ['Januari','Februari','Maret','April','Mei','Juni',
+                     'Juli','Agustus','September','Oktober','November','Desember'],
+        firstDay: 1
+    };
+    
+    const drpOptions = {
+        autoApply: false,
+        autoUpdateInput: false,
+        showDropdowns: true,
+        linkedCalendars: true,
+        locale: drpLocale,
+        opens: 'auto',
+        drops: 'auto',
+        ranges: {
+            'Bulan Ini'       : [moment().startOf('month'), moment().endOf('month')],
+            '3 Bulan Terakhir': [moment().subtract(3, 'months').startOf('month'), moment().endOf('month')],
+            'Tahun Ini'       : [moment().startOf('year'), moment().endOf('year')],
+            'Tahun Lalu'      : [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+        }
+    };
+
+    function initDrp(inputId, clearId) {
+        const $input = $('#' + inputId);
+        const $clear = $('#' + clearId);
+
+        $input.val('');
+        $input.daterangepicker(drpOptions);
+
+        $input.on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+            $clear.show();
+            table.ajax.reload();
+        });
+        
+        $input.on('cancel.daterangepicker', function() {
+            $(this).val('');
+            $clear.hide();
+            table.ajax.reload();
+        });
+        
+        $input.on('click', function(e) { e.stopPropagation(); });
+
+        $clear.hide().on('click', function(e) {
+            e.stopPropagation();
+            $input.val('');
+            $(this).hide();
+            table.ajax.reload();
+        });
+    }
+
+    initDrp('filterDob', 'clearDob');
+    initDrp('filterHiredDate', 'clearHiredDate');
 
     // ─── Reload on Select2 filter change ─────────────────────────────────────
     $(document).on('change', '.filter-select', function() {
