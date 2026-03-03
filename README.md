@@ -73,13 +73,16 @@ Seluruh komentar internal (`DocBlocks`) pada kode backend telah menggunakan **Ba
     php artisan key:generate
     ```
 
-    _Sesuaikan database di file `.env`._
+    _Buka file `.env` dan sesuaikan kredensial MySQL. Pastikan database `employee_app` sudah dibuat di MySQL._
 
 3. **Database & Storage**:
 
+    Pastikan ekstensi `pdo_mysql` sudah aktif di `php.ini` Anda.
+
     ```bash
     php artisan storage:link
-    php artisan migrate:fresh --seed
+    php artisan migrate
+    php artisan db:seed
     ```
 
 4. **Jalankan Aplikasi**:
